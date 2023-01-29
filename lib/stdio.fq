@@ -1,0 +1,5 @@
+b="lib/string.fq";
+
+i0 print = f(i8* str){
+	s= SYS_write, 1, str, strlen(str);
+}

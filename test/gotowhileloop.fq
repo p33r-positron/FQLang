@@ -1,0 +1,12 @@
+use "lib/stdio.fq";
+
+i32 main=f(i32 argc, i8** argv){
+	i8 tmp[3] = {'0', '\n', 0};
+	loop:
+		tmp[0]++;
+		¿*tmp<='9'?
+			print(tmp);
+			i=loop;
+		!
+	f=0;
+}

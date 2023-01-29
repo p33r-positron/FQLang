@@ -1,0 +1,14 @@
+use "lib/stdio.h";
+
+i16 twice = f(i32 x): 2*x;
+
+i16 main = f(i32 c, i8** v){
+  i8 test;
+  scanf("%c", &test);
+  ¿test == 'A'?
+    printf("You said A !");
+  ¡
+    printf("You didn't say A...");
+  !
+  f=0;
+}

@@ -1,0 +1,5 @@
+#!/bin/bash
+A=$1
+node main.js $1 &&
+gcc "${A::-3}.c" -o ${A::-3} &&
+./${A::-3}

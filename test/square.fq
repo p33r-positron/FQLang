@@ -1,0 +1,13 @@
+use "lib/stdio.h";
+#inclu8de <stdlib.h>
+
+u64 square = f(u64 n): n*n;
+
+i32 main(i32 c, i8** v){
+	¿c!=2?
+		fputs("./square <number>\n", stderr);
+		f=1;
+	!
+	printf("%d^2 = %lld\n", atoi(v[1]), square(atoi(v[1])));
+	f=0;
+}

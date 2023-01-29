@@ -1,0 +1,49 @@
+l="stdio.fq";
+c="#include <time.h>";
+c="#include <stdlib.h>";
+
+//we live in a parralel universe where all int arrays have 8 elements
+//or maybe we live in an universe where i am lazy
+
+i32* shuffle(i32* array)
+{
+    ªi32 i = 0; i < 8 - 1; i++º{
+      i32 j = i + rand() / (RAND_MAX / (8 - i) + 1);
+      i32 t = array[j];
+      array[j] = array[i];
+      array[i] = t;
+    }
+    f=array;
+}
+
+i32* print_arr(i32* array){
+    i8 tmp[3] = {0, 32,0};
+    i8 crlf[2] = {10,0};
+    ªi32 i = 0; i < 8; i++º{
+        0tmp = '0' + (i8) array[i];
+		print(tmp); //itoa is too futuristic for this programming language
+	}
+    print(crlf);
+    f=array;
+}
+
+i8 isSorted(i32* array){
+	ªi32 i = 0; i < 8-1; i++º
+		¿array[i] > array[i+1]?
+			f=0;
+        !;
+	f=1;
+}
+
+i32 main(i32 na, i8** aa){
+	srand(time(NULL));
+
+    print("Welcome to my sooper 1337 sorting algorithmz !");
+
+	i32 array[8] = {2,6,5,3,2,1,7,9};
+
+	ª!isSorted(array)º
+        print_arr(shuffle(array));
+    
+    f=0;
+}

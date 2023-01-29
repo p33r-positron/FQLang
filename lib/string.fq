@@ -1,0 +1,6 @@
+u32 strlen = f(i8* str){
+	u32 i = 0;
+	ª*str++º
+		i++;
+	f=i;
+}
