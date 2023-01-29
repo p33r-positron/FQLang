@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const config = require("./config.json");
+config.libloc = path.join(config.libloc.replaceAll("{{dirname}}", __dirname));
 
 const special1 = config.keyword_alphabet.map(letter=>`${letter}\\=`).join("|");
 const special2 = "\\<|\<\\=|\\=\\=|\\=|\\>|\\>|\\*|\\+|\\-|\\/|\\¿|\\?|\\¡|\\!|\\:|\\;|\\(|\\)|\\{|\\}|\\[|\\]|\\,|ª|ºº|º|°°|°|\\@nl";
@@ -12,8 +13,6 @@ const keywords = ["i0","i8","i16","i32","i64","u0","u8","u16","u32","u64","a=","
 const types = keywords.slice(0,11);
 const ponctu = ["(",")","[","]","{","}",";",","];
 const operators = ["+","-","*","/","%","<","!=","<=",">=","==","=",">","&","|","^","&&","||","^^","~","!",":","¿","?","¡","!","->"];
-
-const libloc = "./lib/";
 
 function firstlast(str){
 	return str.charAt(0) + str.slice(-1);
@@ -188,7 +187,7 @@ function gen_1(lexed_o){
 				case "l=":
 					if(lexed[i+1].subtype !== "string")
 					error("You must follow \"l=\" with a string.");
-					return gen_1(lexed_o.replace(new RegExp(`l(\\s*)\\=(\\s*)${lexed[i+1].raw};`), fs.readFileSync(path.join(libloc, lexed[i+1].raw.slice(1,-1)), {"encoding":"utf-8"}).concat("@nl")));
+					return gen_1(lexed_o.replace(new RegExp(`l(\\s*)\\=(\\s*)${lexed[i+1].raw};`), fs.readFileSync(path.join(config.libloc, lexed[i+1].raw.slice(1,-1)), {"encoding":"utf-8"}).concat("@nl")));
 					/*final.push({
 						"type":"rawc",
 						"raw":"#include <"+lexed[i+1].raw.slice(1,-1)+">\n"
