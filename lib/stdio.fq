@@ -7,7 +7,7 @@ i0 puts = f(i8* str){
 u64 fo = f(i8* fn, u8 r, u8 w){
     s= SYS_open, fn, 65, 0o644;
     u64 ret;
-    c="asm (\"movl %%rax, %0;\" : \"=r\" ( ret ):);";
+    c="asm (\"mov %%rax, %0\n\t\" : \"=a\"(ret) : :);";
     f=ret;
 }
 

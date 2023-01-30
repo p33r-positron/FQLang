@@ -6,10 +6,10 @@ const config = require("./config.json");
 config.libloc = path.join(config.libloc.replaceAll("{{dirname}}", __dirname));
 
 const special1 = config.keyword_alphabet.map(letter=>`${letter}\\=`).join("|");
-const special2 = "\\<|\<\\=|\\=\\=|\\=|\\>|\\>|\\*|\\+|\\-|\\/|\\¿|\\?|\\¡|\\!|\\:|\\;|\\(|\\)|\\{|\\}|\\[|\\]|\\,|ª|ºº|º|°°|°|0b|0d|0o|0x|\@nl|🤠|\@qq";
+const special2 = "\\<|\<\\=|\\=\\=|\\=|\\>|\\>|\\*|\\+|\\-|\\/|\\¿|\\?|\\¡|\\!|\\:|\\;|\\(|\\)|\\{|\\}|\\[|\\]|\\,|ª|ºº|º|°°|°|0b|0d|0o|0x|\@nl|🤠";
 const special = new RegExp(`(${special1}${special2})`);
 
-const keywords = ["i0","i8","i16","i32","i64","u0","u8","u16","u32","u64","a=","b=","c=","f=","f","i=","l=","s=","ª","ºº","º","°°","°","@nl","🤠","@qq"];
+const keywords = ["i0","i8","i16","i32","i64","u0","u8","u16","u32","u64","a=","b=","c=","f=","f","i=","l=","s=","ª","ºº","º","°°","°","@nl","🤠"];
 const types = keywords.slice(0,11);
 const ponctu = ["(",")","[","]","{","}",";",","];
 const operators = ["+","-","*","/","%","<","!=","<=",">=","==","=",">","&","|","^","&&","||","^^","~","!",":","¿","?","¡","!","->","0b","0d","0o","0x"];
@@ -163,7 +163,7 @@ function gen_1(lexed_o){
 				case config.keyword_alphabet[2]+"=": //c
 					final.push({
 						"type":"rawc",
-						"raw":lexed[i+1].raw.slice(1,-1)
+						"raw":lexed[i+1].raw.slice(1,-1).replaceAll("@qq","\"")
 					});
 					i+=3;
 					break;
@@ -305,16 +305,6 @@ function gen_1(lexed_o){
 						final.push({
 							"type":"rawc",
 							"raw":"\n"
-						});
-					}
-					i++;
-					break;
-				case "@qq":
-					if(false){ //for later
-					} else {
-						final.push({
-							"type":"rawc",
-							"raw":"\\\""
 						});
 					}
 					i++;
@@ -468,6 +458,7 @@ function gen_2(gen1ed){
 		final += gen1ed[i].raw;
 		i++;
 	}
+	final = final.replaceAll("@qq","\\\"");
 	return final;
 }
 
