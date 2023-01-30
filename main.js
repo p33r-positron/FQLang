@@ -128,13 +128,13 @@ function gen_1(lexed_o){
 	for(var i = 0 ; i < lexed.length ;){
 		if(lexed[i].type == "keyword"){
 			switch(lexed[i].raw){
-				case "a=":
+				case config.keyword_alphabet[0]+"=": //a
 					i++;
 					break;
-				case "b=":
+				case config.keyword_alphabet[1]+"=": //b
 					if(lexed[i+1].subtype !== "string")
 					error("You must follow \"b=\" with a string.");
-					return gen_1(lexed_o.replace(new RegExp(`b(\\s*)\\=(\\s*)${lexed[i+1].raw};`), fs.readFileSync(lexed[i+1].raw.slice(1,-1), {"encoding":"utf-8"}).concat("@nl")));
+					return gen_1(lexed_o.replace(new RegExp(`${config.keyword_alphabet[1]}\\=(\\s*)${lexed[i+1].raw};`), fs.readFileSync(lexed[i+1].raw.slice(1,-1), {"encoding":"utf-8"}).concat("@nl")));
 					/*final.push({
 						"type":"rawc",
 						"raw":"#include <"+lexed[i+1].raw.slice(1,-1)+">\n"
@@ -142,14 +142,75 @@ function gen_1(lexed_o){
 					replacenextsemicolonwith = " ";
 					i+=2;*/
 					break;
-				case "c=":
+				case config.keyword_alphabet[2]+"=": //c
 					final.push({
 						"type":"rawc",
 						"raw":lexed[i+1].raw.slice(1,-1)
 					});
 					i+=3;
 					break;
-				case "s=":
+				case config.keyword_alphabet[3]+"=": //d
+					i++;
+					break;
+				case config.keyword_alphabet[4]+"=": //e
+					i++;
+					break;
+				case config.keyword_alphabet[5]+"=": //f
+					final.push({
+						"type":"rawc",
+						"raw":"return "
+					});
+					i++;
+					break;
+				case config.keyword_alphabet[6]+"=": //g
+					i++;
+					break;
+				case config.keyword_alphabet[7]+"=": //h
+					i++;
+					break;
+				case config.keyword_alphabet[8]+"=": //i
+					final.push({
+						"type":"rawc",
+						"raw":"goto "
+					});
+					i++;
+					break;
+				case config.keyword_alphabet[9]+"=": //j
+					i++;
+					break;
+				case config.keyword_alphabet[10]+"=": //k
+					i++;
+					break;
+				case config.keyword_alphabet[11]+"=": //l
+					if(lexed[i+1].subtype !== "string")
+					error("You must follow \"l=\" with a string.");
+					return gen_1(lexed_o.replace(new RegExp(`l(\\s*)\\=(\\s*)${lexed[i+1].raw};`), fs.readFileSync(path.join(config.libloc, lexed[i+1].raw.slice(1,-1)), {"encoding":"utf-8"}).concat("@nl")));
+					/*final.push({
+						"type":"rawc",
+						"raw":"#include <"+lexed[i+1].raw.slice(1,-1)+">\n"
+					});
+					replacenextsemicolonwith = " ";
+					i+=2;*/
+					break;
+				case config.keyword_alphabet[12]+"=": //m
+					i++;
+					break;
+				case config.keyword_alphabet[13]+"=": //n
+					i++;
+					break;
+				case config.keyword_alphabet[14]+"=": //o
+					i++;
+					break;
+				case config.keyword_alphabet[15]+"=": //p
+					i++;
+					break;
+				case config.keyword_alphabet[16]+"=": //q
+					i++;
+					break;
+				case config.keyword_alphabet[17]+"=": //r
+					i++;
+					break;
+				case config.keyword_alphabet[18]+"=": //s
 					if((lexed[i+1].type !== "litteral" || lexed[i+1].subtype !== "int") && lexed[i+1].type !== "identifier") //remove if you need to do obfuscated shit
 					error("[FQLang] Expected syscall number or SYS_* constant after syscall"); //this too
 					final.push({
@@ -170,30 +231,26 @@ function gen_1(lexed_o){
 					});
 					i++;
 					break;
-				case "f=":
-					final.push({
-						"type":"rawc",
-						"raw":"return "
-					});
+				case config.keyword_alphabet[19]+"=": //t
 					i++;
 					break;
-				case "i=":
-					final.push({
-						"type":"rawc",
-						"raw":"goto "
-					});
+				case config.keyword_alphabet[20]+"=": //u
 					i++;
 					break;
-				case "l=":
-					if(lexed[i+1].subtype !== "string")
-					error("You must follow \"l=\" with a string.");
-					return gen_1(lexed_o.replace(new RegExp(`l(\\s*)\\=(\\s*)${lexed[i+1].raw};`), fs.readFileSync(path.join(config.libloc, lexed[i+1].raw.slice(1,-1)), {"encoding":"utf-8"}).concat("@nl")));
-					/*final.push({
-						"type":"rawc",
-						"raw":"#include <"+lexed[i+1].raw.slice(1,-1)+">\n"
-					});
-					replacenextsemicolonwith = " ";
-					i+=2;*/
+				case config.keyword_alphabet[21]+"=": //v
+					i++;
+					break;
+				case config.keyword_alphabet[22]+"=": //w
+					i++;
+					break;
+				case config.keyword_alphabet[23]+"=": //x
+					i++;
+					break;
+				case config.keyword_alphabet[24]+"=": //y
+					i++;
+					break;
+				case config.keyword_alphabet[25]+"=": //z
+					i++;
 					break;
 				case "ª":
 					let j = i;
