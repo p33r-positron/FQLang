@@ -1,5 +1,25 @@
 b="lib/string.fq";
 
-i0 print = f(i8* str){
+i0 puts = f(i8* str){
 	s= SYS_write, 1, str, strlen(str);
+}
+
+u64 fo = f(i8* fn, u8 r, u8 w){
+    s= SYS_open, fn, 65, 0o644;
+    u64 ret;
+    c="asm (\"movl %%rax, %0;\" : \"=r\" ( ret ):);";
+    f=ret;
+}
+
+i0 fw = f(u64 fd, i8* str){
+    s= SYS_write, fd, str, strlen(str);
+}
+
+i8* fr = f(u64 fd, i8* buf, u64 len){
+    s= SYS_read, fd, buf, len;
+    f=buf;
+}
+
+i0 slp = f(u64 time[2]){
+    s= SYS_nanosleep, time;
 }

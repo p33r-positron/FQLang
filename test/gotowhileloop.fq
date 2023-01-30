@@ -5,7 +5,7 @@ i32 main=f(i32 argc, i8** argv){
 	loop:
 		tmp[0]++;
 		¿*tmp<='9'?
-			print(tmp);
+			puts(tmp);
 			i=loop;
 		!
 	f=0;

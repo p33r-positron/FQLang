@@ -1,0 +1,15 @@
+l="stdio.fq";
+
+i32 main = f(i32 na, i8** aa){
+    ¿na != 2?
+        s= SYS_write, 2, "touch <file>\n", 13;
+        f=1;
+    !;
+    u64 file = fo(aa[1],1,1);
+    ¿file?
+        fw(file, "");
+    ¡
+        f=1;
+    !;
+    f=0;
+}

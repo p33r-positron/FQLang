@@ -1,5 +1,5 @@
-use "lib/stdio.h";
-#inclu8de <stdlib.h>
+c="#include <stdio.h>";
+c="#include <stdlib.h>";
 
 u64 square = f(u64 n): n*n;
 

@@ -6,13 +6,13 @@ const config = require("./config.json");
 config.libloc = path.join(config.libloc.replaceAll("{{dirname}}", __dirname));
 
 const special1 = config.keyword_alphabet.map(letter=>`${letter}\\=`).join("|");
-const special2 = "\\<|\<\\=|\\=\\=|\\=|\\>|\\>|\\*|\\+|\\-|\\/|\\¿|\\?|\\¡|\\!|\\:|\\;|\\(|\\)|\\{|\\}|\\[|\\]|\\,|ª|ºº|º|°°|°|\\@nl";
+const special2 = "\\<|\<\\=|\\=\\=|\\=|\\>|\\>|\\*|\\+|\\-|\\/|\\¿|\\?|\\¡|\\!|\\:|\\;|\\(|\\)|\\{|\\}|\\[|\\]|\\,|ª|ºº|º|°°|°|0b|0d|0o|0x|\@nl|🤠|\@qq";
 const special = new RegExp(`(${special1}${special2})`);
 
-const keywords = ["i0","i8","i16","i32","i64","u0","u8","u16","u32","u64","a=","b=","c=","f=","f","i=","l=","s=","ª","ºº","º","°°","°","@nl"];
+const keywords = ["i0","i8","i16","i32","i64","u0","u8","u16","u32","u64","a=","b=","c=","f=","f","i=","l=","s=","ª","ºº","º","°°","°","@nl","🤠","@qq"];
 const types = keywords.slice(0,11);
 const ponctu = ["(",")","[","]","{","}",";",","];
-const operators = ["+","-","*","/","%","<","!=","<=",">=","==","=",">","&","|","^","&&","||","^^","~","!",":","¿","?","¡","!","->"];
+const operators = ["+","-","*","/","%","<","!=","<=",">=","==","=",">","&","|","^","&&","||","^^","~","!",":","¿","?","¡","!","->","0b","0d","0o","0x"];
 
 function firstlast(str){
 	return str.charAt(0) + str.slice(-1);
@@ -30,11 +30,13 @@ function iutype2c(t){
 }
 
 function parse(data){
+	data = data.replaceAll("\\\"", "@qq");
 	data = data.replace(/\/\/(.*?)\n/g, "\n");
 	data = data.replaceAll("\n", "@nl")
-	data = data.split(special).join("🤠🙁🤠");
-	data = data.match(/(?:[^\s|🤠🙁🤠"]+|"[^"]*")+/g);
-	data = data.map(x=>x.replaceAll("🤠🙁🤠",""))
+	data = data.split(special).join("🤠");
+	data = data.match(/(?:[^🤠"]+|"[^"]*")+/g);
+	data = data.map(x=>x.replaceAll("🤠","")).join(" ")
+	data = data.match(/(?:[^\s"]+|"[^"]*")+/g);
 	return data;
 }
 
@@ -60,6 +62,21 @@ function lex(parsed_o){
 			if(parsed[i] == "*" && types.includes(final[final.length-2].raw.replace(/\*/g,"")))
 			{
 				final[final.length-2].raw += "*";
+			}
+			else if(["0b","0d","0o","0x"].includes(parsed[i])){
+				if(parsed[i].slice(0,2) == "0o")
+					final.push({
+						"type":"litteral",
+						"subtype":"int",
+						"raw":"0".concat(parsed[i+1])
+					});
+				else
+					final.push({
+						"type":"litteral",
+						"subtype":"int",
+						"raw":parsed[i].concat(parsed[i+1])
+					});
+				i++;
 			}
 			else{
 				final.push({
@@ -125,6 +142,7 @@ function gen_1(lexed_o){
 	var lexed = lex(lexed_o);
 	var final = [];
 	var replacenextsemicolonwith = ";";
+	var isinelse = 0;
 	for(var i = 0 ; i < lexed.length ;){
 		if(lexed[i].type == "keyword"){
 			switch(lexed[i].raw){
@@ -255,7 +273,7 @@ function gen_1(lexed_o){
 				case "ª":
 					let j = i;
 					while(lexed[j].raw !== ";" && lexed[j].raw !== "º" && lexed[j].raw !== "°")
-					j++;
+						j++;
 					final.push({
 						"type":"rawc",
 						"raw":lexed[j].raw==";"?"for(":"while("
@@ -287,6 +305,16 @@ function gen_1(lexed_o){
 						final.push({
 							"type":"rawc",
 							"raw":"\n"
+						});
+					}
+					i++;
+					break;
+				case "@qq":
+					if(false){ //for later
+					} else {
+						final.push({
+							"type":"rawc",
+							"raw":"\\\""
 						});
 					}
 					i++;
@@ -352,12 +380,9 @@ function gen_1(lexed_o){
 					isinelse++;
 					break;
 				case "!":
-					let j = i;
-					while(lexed[j].type !== "identifier" && lexed[j].type !== "keyword" && lexed[j].type !== "litteral" && lexed[j].raw !== ";")
-					j++;
 					final.push({
 						"type":"rawc",
-						"raw":lexed[j].raw==";"?"}\n":"!"
+						"raw":lexed[i+1].raw==";"?"}\n":"!"
 					});
 					break;
 				case ":":

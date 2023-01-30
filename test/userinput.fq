@@ -1,4 +1,4 @@
-use "lib/stdio.h";
+c="#include <stdio.h>";
 
 i16 twice = f(i32 x): 2*x;
 
