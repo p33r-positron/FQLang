@@ -147,6 +147,17 @@ function gen_1(lexed_o){
 		if(lexed[i].type == "keyword"){
 			switch(lexed[i].raw){
 				case config.keyword_alphabet[0]+"=": //a
+					let t = "asm( ";
+					i++;
+					while(lexed[i].raw !== ";"){
+						t += lexed[i].raw;
+						i++;
+					}
+					t+=");"
+					final.push({
+						"type":"rawc",
+						"raw":t
+					});
 					i++;
 					break;
 				case config.keyword_alphabet[1]+"=": //b
@@ -310,7 +321,7 @@ function gen_1(lexed_o){
 					i++;
 					break;
 				default:
-					if(types.includes(lexed[i].raw.replace(/\*/g,""))){
+					if(types.includes(lexed[i].raw.replaceAll("*",""))){
 						final.push({
 							"type":"rawc",
 							"raw":iutype2c(lexed[i].raw)+" "
@@ -376,7 +387,7 @@ function gen_1(lexed_o){
 					});
 					break;
 				case ":":
-					if(final[final.length-1].raw==")"){
+					if(types.includes(final[final.length-3].raw.replaceAll("*","")) || final[final.length-3].raw == "f"){
 						final.push({
 							"type":"rawc",
 							"raw":"{return "

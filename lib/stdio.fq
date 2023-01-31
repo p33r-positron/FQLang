@@ -4,10 +4,14 @@ i0 puts = f(i8* str){
 	s= SYS_write, 1, str, strlen(str);
 }
 
+i0 getRAX = f(u64* where) : a="mov %%rax, %0;" : "=a"(*where) : : ;
+
+//c="struct F_t {}"; //FILE struct later
+
 u64 fo = f(i8* fn, u8 r, u8 w){
     s= SYS_open, fn, 65, 0o644;
     u64 ret;
-    c="asm (\"mov %%rax, %0\n\t\" : \"=a\"(ret) : :);";
+    a="mov %%rax, %0;" : "=a"(ret) : : ;
     f=ret;
 }
 
