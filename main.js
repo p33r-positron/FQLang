@@ -410,6 +410,12 @@ function gen_1(lexed_o){
 						});
 					}
 					break;
+				case "^^":
+					final.push({ //shut up, in C everything is a number anyway ?
+						"type":"rawc",
+						"raw":"^"
+					});
+					break;
 				default:
 					final.push({
 						"type":"rawc",
