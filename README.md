@@ -32,7 +32,7 @@ The notion of keyword alphabet is only for \<letter\>= keywords, for now you'll 
 |   b=    | Includes Local File |               b="somefile.fq";             |
 |   c=    |      Raw C Code     |       c="printf(\\"Hello from C !\\")";    |
 |   d=    |     Not Defined     |  |
-|   e=    |     Not Defined     |  |
+|   e=    |       Execute       | Includes result of a shell command: e="echo int a = 1;";  |
 |   f     |      Functions      |      i32 square = f (i32 x) { f= x*x }     |
 |   f=    |Returns from function|      i32 square = f (i32 x) { f= x*x }     |
 |   g=    |     Not Defined     |  |

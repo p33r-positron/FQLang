@@ -1,6 +1,7 @@
 #!/bin/node
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
+const cp = require("node:child_process");
 
 const config = require("./config.json");
 config.libloc = path.join(config.libloc.replaceAll("{{dirname}}", __dirname));
@@ -182,7 +183,11 @@ function gen_1(lexed_o){
 					i++;
 					break;
 				case config.keyword_alphabet[4]+"=": //e
-					i++;
+					final.push({
+						"type":"rawc",
+						"raw": cp.execSync(lexed[i+1].raw.slice(1,-1).replaceAll("@qq","\"")).toString()
+					});
+					i+=2;
 					break;
 				case config.keyword_alphabet[5]+"=": //f
 					final.push({
