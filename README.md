@@ -1,7 +1,7 @@
 # FQLang
 
 Somewhat a programming langage, tried to make one that isn't based of english (or latin more generally).  
-Have fun trying it, and Ésperanto FTW !  
+It doesn't work rn, I need to fix it. Yay !  
 
 # Documentation
 
